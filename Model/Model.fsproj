@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WarnOn>3390;$(WarnOn)</WarnOn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Library.fs"/>
+    </ItemGroup>
+
+    <!--
+        copying this into the scripts folder allows us to reference the library and get intellisense
+        at edit time while the same #r reference will work at runtime    
+    -->
+    <Target Name="CopyLibraryToScripts" AfterTargets="Build">
+        <ItemGroup>
+            <DataFiles Include="$(TargetDir)\$(TargetFileName)" />
+        </ItemGroup>
+        <Copy
+                SourceFiles="@(DataFiles)"
+                DestinationFolder="$(SolutionDir)\RuntimeFSharpCompilation\Scripts"
+        />
+    </Target>
+</Project>

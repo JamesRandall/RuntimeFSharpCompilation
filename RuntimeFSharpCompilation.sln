@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RuntimeFSharpCompilation", "RuntimeFSharpCompilation\RuntimeFSharpCompilation.fsproj", "{FCFB2537-20A1-412E-930A-DEA59CD8AD5F}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Model", "Model\Model.fsproj", "{B32FFB70-E4A5-4AFE-A645-59FFA48E3BE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCFB2537-20A1-412E-930A-DEA59CD8AD5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFB2537-20A1-412E-930A-DEA59CD8AD5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFB2537-20A1-412E-930A-DEA59CD8AD5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFB2537-20A1-412E-930A-DEA59CD8AD5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B32FFB70-E4A5-4AFE-A645-59FFA48E3BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B32FFB70-E4A5-4AFE-A645-59FFA48E3BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B32FFB70-E4A5-4AFE-A645-59FFA48E3BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B32FFB70-E4A5-4AFE-A645-59FFA48E3BE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
