@@ -71,10 +71,19 @@ let extractor<'r> name assembly (lambdaConstructor:(Expression -> ParameterExpre
   | Error error -> Error error
 
 let extractFunction1<'p1,'r> name (assembly:Assembly) : Result<'p1 -> 'r,string> =
+  // we can't use CreateDelegate due to some type issues - namely void and unit which
+  // require some special care
+  (*
+  getMemberInfo name assembly
+  |> Result.map(fun memberInfo ->
+    let createdDelegate = Delegate.CreateDelegate(typeof<Func<'p1,'r>>, null, memberInfo)
+    createdDelegate :?> Func<'p1,'r> |> FuncConvert.FromFunc
+  )
+  *)  
   let lambdaConstructor expression parameters = Expression.Lambda(expression, parameters)
   let parameters = [| Expression.Parameter(typeof<'p1>) |]  
   let systemFuncResult = extractor<'r> name assembly lambdaConstructor parameters
-  systemFuncResult |> Result.map(fun systemFunc -> systemFunc :?> Func<'p1,'r> |> FuncConvert.FromFunc )  
+  systemFuncResult |> Result.map(fun systemFunc -> systemFunc :?> Func<'p1,'r> |> FuncConvert.FromFunc )
 
 let extractFunction2<'p1,'p2,'r> name (assembly:Assembly) : Result<'p1 -> 'p2 -> 'r,string> =
   let lambdaConstructor expression parameters = Expression.Lambda(expression, parameters)
