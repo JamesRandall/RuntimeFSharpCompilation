@@ -41,7 +41,7 @@ let compileScript name =
     |> String.concat("\n")    
     |> Error
 
-let extractor<'r> name assembly (lambdaConstructor:(Expression -> ParameterExpression [] -> LambdaExpression)) parameters =
+let extractor<'r> name assembly parameters =
   match getMemberInfo name assembly with
   | Ok memberInfo ->
     try
@@ -63,7 +63,7 @@ let extractor<'r> name assembly (lambdaConstructor:(Expression -> ParameterExpre
                 ),
                 typeof<'r>
               ) :> Expression
-        lambdaConstructor expression parameters
+        Expression.Lambda(expression, parameters)
       let systemFunc = lambda.Compile()
       systemFunc |> Ok
     with
@@ -80,26 +80,23 @@ let extractFunction1<'p1,'r> name (assembly:Assembly) : Result<'p1 -> 'r,string>
     createdDelegate :?> Func<'p1,'r> |> FuncConvert.FromFunc
   )
   *)  
-  let lambdaConstructor expression parameters = Expression.Lambda(expression, parameters)
   let parameters = [| Expression.Parameter(typeof<'p1>) |]  
-  let systemFuncResult = extractor<'r> name assembly lambdaConstructor parameters
+  let systemFuncResult = extractor<'r> name assembly parameters
   systemFuncResult |> Result.map(fun systemFunc -> systemFunc :?> Func<'p1,'r> |> FuncConvert.FromFunc )
 
 let extractFunction2<'p1,'p2,'r> name (assembly:Assembly) : Result<'p1 -> 'p2 -> 'r,string> =
-  let lambdaConstructor expression parameters = Expression.Lambda(expression, parameters)
   let parameters = [|
     Expression.Parameter(typeof<'p1>)
     Expression.Parameter(typeof<'p2>)    
   |]  
-  let systemFuncResult = extractor<'r> name assembly lambdaConstructor parameters
+  let systemFuncResult = extractor<'r> name assembly parameters
   systemFuncResult |> Result.map(fun systemFunc -> systemFunc :?> Func<'p1,'p2,'r> |> FuncConvert.FromFunc )
   
 let extractFunction3<'p1,'p2,'p3,'r> name (assembly:Assembly) : Result<'p1 -> 'p2 -> 'p3 -> 'r,string> =
-  let lambdaConstructor expression parameters = Expression.Lambda(expression, parameters)
   let parameters = [|
     Expression.Parameter(typeof<'p1>)
     Expression.Parameter(typeof<'p2>)
     Expression.Parameter(typeof<'p3>)
   |]    
-  let systemFuncResult = extractor<'r> name assembly lambdaConstructor parameters
+  let systemFuncResult = extractor<'r> name assembly parameters
   systemFuncResult |> Result.map(fun systemFunc -> systemFunc :?> Func<'p1,'p2,'p3,'r> |> FuncConvert.FromFunc )
